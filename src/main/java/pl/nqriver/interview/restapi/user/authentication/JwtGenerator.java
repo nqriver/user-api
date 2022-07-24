@@ -1,4 +1,4 @@
-package pl.nqriver.interview.restapi.user;
+package pl.nqriver.interview.restapi.user.authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +16,11 @@ public class JwtGenerator {
 
     private final JwtEncoder jwtEncoder;
 
-    public JwtGenerator(JwtEncoder jwtEncoder) {
+    public JwtGenerator(final JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public Jwt generateTokenFor(UserDetails userDetails) {
+    public Jwt generateTokenFor(final UserDetails userDetails) {
         Instant now = Instant.now();
         Long expiry = 3600L;
 

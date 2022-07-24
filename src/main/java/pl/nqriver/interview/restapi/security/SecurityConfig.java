@@ -53,10 +53,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                                 .antMatchers(
-                                        "/register/**",
-                                        "/login",
-                                        "/test"
-//                                "/register"
+                                        "/register",
+                                        "/login"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )

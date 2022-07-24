@@ -1,4 +1,4 @@
-package pl.nqriver.interview.restapi.user;
+package pl.nqriver.interview.restapi.user.registration;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +12,13 @@ public class RegistrationController {
     private final RegistrationFacade registrationFacade;
 
 
-    public RegistrationController(RegistrationFacade registrationFacade) {
+    public RegistrationController(final RegistrationFacade registrationFacade) {
         this.registrationFacade = registrationFacade;
     }
 
     @PostMapping("register")
-    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest)
-    {
-        registrationFacade.registerNewUser(registrationRequest.username(), registrationRequest.password());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> registerUser(@RequestBody final RegistrationRequest registrationRequest) {
+        registrationFacade.registerNewUser(registrationRequest);
+        return ResponseEntity.ok().build();
     }
 }

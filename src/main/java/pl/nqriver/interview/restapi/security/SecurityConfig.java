@@ -36,10 +36,10 @@ import pl.nqriver.interview.restapi.user.UserRepository;
 public class SecurityConfig {
 
     @Value("${jwt.public.key}")
-    RSAPublicKey publicKey;
+    private RSAPublicKey publicKey;
 
     @Value("${jwt.private.key}")
-    RSAPrivateKey privateKey;
+    private RSAPrivateKey privateKey;
 
     private final UserRepository userRepository;
 

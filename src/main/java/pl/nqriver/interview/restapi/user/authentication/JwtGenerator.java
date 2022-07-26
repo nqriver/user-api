@@ -1,5 +1,6 @@
 package pl.nqriver.interview.restapi.user.authentication;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,13 +17,16 @@ public class JwtGenerator {
 
     private final JwtEncoder jwtEncoder;
 
+    @Value("${jwt.expiry}")
+    private Long expiry;
+
     public JwtGenerator(final JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
 
     public Jwt generateTokenFor(final UserDetails userDetails) {
         Instant now = Instant.now();
-        Long expiry = 3600L;
+        Instant expiryDate = now.plusSeconds(expiry);
 
         String scope = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -31,7 +35,7 @@ public class JwtGenerator {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiry))
+                .expiresAt(expiryDate)
                 .subject(userDetails.getUsername())
                 .claim("scope", scope)
                 .build();

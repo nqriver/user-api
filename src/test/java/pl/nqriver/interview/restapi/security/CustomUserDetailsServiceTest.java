@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
-import pl.nqriver.interview.restapi.common.UserTestUtils;
+import pl.nqriver.interview.restapi.common.TestDataUtils;
 import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.UserRepository;
 
@@ -22,11 +22,16 @@ class CustomUserDetailsServiceTest extends AbstractTestcontainersIT {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private TestDataUtils testDataUtils;
+
+
+
     @Test
     void shouldLoadUserDetails_whenUserExists() {
         // given
         String name = "test";
-        UserTestUtils.givenUserOfName(name, userRepository);
+        testDataUtils.givenUserOfName(name);
 
         assertThat(userRepository.existsByName(name)).isTrue();
 

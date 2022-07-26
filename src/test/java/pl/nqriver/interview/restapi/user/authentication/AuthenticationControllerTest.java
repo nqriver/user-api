@@ -7,12 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.nqriver.interview.restapi.common.UserTestUtils;
+import pl.nqriver.interview.restapi.common.TestDataUtils;
 import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.UserRepository;
 import pl.nqriver.interview.restapi.user.authentication.dto.AuthenticationRequest;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -34,12 +35,15 @@ class AuthenticationControllerTest extends AbstractTestcontainersIT {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TestDataUtils testDataUtils;
+
     @Test
     public void shouldGenerateAuthenticationToken_whenUserExistsAndAuthenticatedSuccessfully() throws Exception {
         String savedUsername = "test";
         String savedUserPassword = "test";
-        UserTestUtils.givenUserOfNameAndEncryptedPassword(
-                savedUsername, savedUserPassword, passwordEncoder, userRepository);
+        testDataUtils.givenUserOfNameAndEncryptedPassword(
+                savedUsername, savedUserPassword);
 
         AuthenticationRequest request = new AuthenticationRequest(savedUsername, savedUserPassword);
 
@@ -75,8 +79,7 @@ class AuthenticationControllerTest extends AbstractTestcontainersIT {
         String savedUserPassword = "test";
         String wrongPassword = savedUserPassword.concat("asdsd");
 
-        UserTestUtils.givenUserOfNameAndEncryptedPassword(
-                savedUsername, savedUserPassword, passwordEncoder, userRepository);
+        testDataUtils.givenUserOfNameAndEncryptedPassword(savedUsername, savedUserPassword);
 
         AuthenticationRequest request = new AuthenticationRequest(savedUsername, wrongPassword);
 

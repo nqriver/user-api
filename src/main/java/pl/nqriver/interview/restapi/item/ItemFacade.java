@@ -2,6 +2,7 @@ package pl.nqriver.interview.restapi.item;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.nqriver.interview.restapi.item.dto.ItemCreateRequest;
 import pl.nqriver.interview.restapi.item.dto.ItemMapper;
 import pl.nqriver.interview.restapi.item.dto.ItemResponse;
@@ -25,6 +26,7 @@ public class ItemFacade {
         this.itemMapper = itemMapper;
     }
 
+    @Transactional
     ItemResponse create(final ItemCreateRequest createRequest, final String nameOfLoggedInUser) {
 
         UserEntity user = getLoggedInUser(nameOfLoggedInUser);
@@ -34,6 +36,7 @@ public class ItemFacade {
 
     }
 
+    @Transactional
     public List<ItemResponse> findAllByUser(final String nameOfLoggedInUser, final Pageable pageable) {
         UserEntity loggedUser = getLoggedInUser(nameOfLoggedInUser);
         return itemMapper.toListOfItemResponse(

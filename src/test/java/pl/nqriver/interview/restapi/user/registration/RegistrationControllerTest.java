@@ -1,14 +1,13 @@
 package pl.nqriver.interview.restapi.user.registration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.nqriver.interview.restapi.common.UserTestUtils;
+import pl.nqriver.interview.restapi.common.TestDataUtils;
 import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.UserRepository;
 import pl.nqriver.interview.restapi.user.registration.dto.RegistrationRequest;
@@ -33,6 +32,9 @@ class RegistrationControllerTest extends AbstractTestcontainersIT {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TestDataUtils testDataUtils;
 
     @Test
     public void shouldRegisterNewUser_whenUsernameIsNotTakenYetAndPasswordIsOfRequiredLength() throws Exception {
@@ -96,8 +98,8 @@ class RegistrationControllerTest extends AbstractTestcontainersIT {
         String takenUsername = "test";
         String password = "testtestest";
 
-        UserTestUtils.givenUserOfNameAndEncryptedPassword(
-                takenUsername, password, passwordEncoder, userRepository);
+        testDataUtils.givenUserOfNameAndEncryptedPassword(
+                takenUsername, password);
 
         RegistrationRequest request = new RegistrationRequest(takenUsername, password);
         String json = objectMapper.writeValueAsString(request);

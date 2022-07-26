@@ -3,10 +3,9 @@ package pl.nqriver.interview.restapi.user.registration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import pl.nqriver.interview.restapi.common.UserTestUtils;
+import pl.nqriver.interview.restapi.common.TestDataUtils;
 import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.UserAlreadyExistsException;
-import pl.nqriver.interview.restapi.user.UserEntity;
 import pl.nqriver.interview.restapi.user.UserRepository;
 import pl.nqriver.interview.restapi.user.registration.dto.RegistrationRequest;
 
@@ -21,6 +20,9 @@ class RegistrationFacadeTest extends AbstractTestcontainersIT {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TestDataUtils testDataUtils;
 
     @Test
     void shouldRegisterNewUser_whenUsernameIsNotTaken() {
@@ -41,7 +43,7 @@ class RegistrationFacadeTest extends AbstractTestcontainersIT {
         // given
 
         String usernameToBeSaved = "testUser";
-        UserTestUtils.givenUserOfName(usernameToBeSaved, userRepository);
+        testDataUtils.givenUserOfName(usernameToBeSaved);
 
         assertThat(userRepository.existsByName(usernameToBeSaved)).isTrue();
 
@@ -50,15 +52,4 @@ class RegistrationFacadeTest extends AbstractTestcontainersIT {
                 .isInstanceOf(UserAlreadyExistsException.class);
 
     }
-
-
-
-    void givenSavedUserOfName(String username) {
-        UserEntity user = new UserEntity();
-        user.setName(username);
-        user.setPassword("dummyPassword");
-        userRepository.save(user);
-
-    }
-
 }

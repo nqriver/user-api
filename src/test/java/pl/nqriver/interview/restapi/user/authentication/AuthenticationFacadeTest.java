@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import pl.nqriver.interview.restapi.common.UserTestUtils;
+import pl.nqriver.interview.restapi.common.TestDataUtils;
 import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.InvalidUsernameOrPasswordException;
 import pl.nqriver.interview.restapi.user.UserRepository;
@@ -30,13 +30,17 @@ class AuthenticationFacadeTest extends AbstractTestcontainersIT {
     AuthenticationFacade authenticationFacade;
 
 
+    @Autowired
+    TestDataUtils testUtils;
+
+
     @Test
     void shouldAuthenticateUser_whenPasswordMatches() {
 
         // given
         String name = "test";
         String password = "test";
-        UserTestUtils.givenUserOfNameAndEncryptedPassword(name, password, passwordEncoder, userRepository);
+        testUtils.givenUserOfNameAndEncryptedPassword(name, password);
 
         assertThat(userRepository.existsByName(name)).isTrue();
         AuthenticationRequest validRequest = new AuthenticationRequest(name, password);
@@ -57,7 +61,7 @@ class AuthenticationFacadeTest extends AbstractTestcontainersIT {
         // given
         String name = "test";
         String password = "test";
-        UserTestUtils.givenUserOfNameAndEncryptedPassword(name, password, passwordEncoder, userRepository);
+        testUtils.givenUserOfNameAndEncryptedPassword(name, password);
 
         assertThat(userRepository.existsByName(name)).isTrue();
         String invalidPassword = password.concat("asd");

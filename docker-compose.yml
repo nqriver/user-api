@@ -1,0 +1,25 @@
+version: "3"
+services:
+  app:
+    image: backend
+    ports:
+      - "8080:8080"
+    build: ./
+
+    networks:
+      - springmysql-net
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    networks:
+      - springmysql-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=user_item_db
+
+networks:
+  springmysql-net:

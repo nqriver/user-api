@@ -1,12 +1,12 @@
 package pl.nqriver.interview.restapi.user.authentication;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import pl.nqriver.interview.restapi.user.InvalidUsernameOrPasswordException;
+import pl.nqriver.interview.restapi.user.authentication.dto.AuthenticationRequest;
+import pl.nqriver.interview.restapi.user.authentication.dto.JwtResponse;
 
 @Service
 public class AuthenticationFacade {
@@ -27,7 +27,7 @@ public class AuthenticationFacade {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.username());
 
         if (!passwordEncoder.matches(authenticationRequest.password(), userDetails.getPassword())) {
-            throw new AccessDeniedException("Invalid username or password");
+            throw new InvalidUsernameOrPasswordException("Invalid username or password");
         }
 
         String tokenValue = jwtGenerator.generateTokenFor(userDetails).getTokenValue();

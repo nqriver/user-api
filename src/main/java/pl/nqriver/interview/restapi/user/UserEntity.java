@@ -25,13 +25,16 @@ public class UserEntity {
     private String password;
 
 
-    public UserEntity(UUID uuid, String name, String password) {
-        this.uuid = uuid;
+    public UserEntity(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
     public UserEntity() {}
+
+    public UUID getUuid() {
+        return uuid;
+    }
 
     public String getName() {
         return name;

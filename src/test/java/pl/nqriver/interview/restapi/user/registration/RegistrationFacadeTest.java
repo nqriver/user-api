@@ -8,6 +8,7 @@ import pl.nqriver.interview.restapi.user.AbstractTestcontainersIT;
 import pl.nqriver.interview.restapi.user.UserAlreadyExistsException;
 import pl.nqriver.interview.restapi.user.UserEntity;
 import pl.nqriver.interview.restapi.user.UserRepository;
+import pl.nqriver.interview.restapi.user.registration.dto.RegistrationRequest;
 
 import static org.assertj.core.api.Assertions.*;
 

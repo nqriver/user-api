@@ -1,4 +1,4 @@
-# Loyalty card wallet API
+# User-item API
 
 ## Table of contents
 
